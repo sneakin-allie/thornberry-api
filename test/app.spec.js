@@ -1,6 +1,3 @@
-/*
-~~~THESE NEED TO BE FIXED~~~
-
 const knex = require('knex');
 const app = require('./../src/app');
 const supertest = require('supertest');
@@ -33,7 +30,7 @@ describe('Wildlifer users API:', function () {
   before('make knex instance', () => {  
     db = knex({
       client: 'pg',
-      connection: TEST_DATABASE_URL,
+      connection: "postgresql://allison_schulman@localhost/sightings_test",
     })
   
     app.set('db', db)
@@ -66,7 +63,7 @@ describe('Wildlifer users API:', function () {
 
   });
 
-  describe('POST /api/users', function () {
+  describe('POST /api/users/new', function () {
 
     it('should create and return a new user when provided valid data', function () {
       const newUser = {
@@ -77,7 +74,7 @@ describe('Wildlifer users API:', function () {
       };
 
       return supertest(app)
-        .post('/api/users')
+        .post('/api/users/new')
         .send(newUser)
         .expect(201)
         .expect(res => {
@@ -87,56 +84,6 @@ describe('Wildlifer users API:', function () {
     });
 
   });
-
-  describe('PATCH /api/users/:email', () => {
-
-    beforeEach('insert some users', () => {
-      return db('users').insert(users);
-    })
-
-    it('should update a user when given valid data and an email', function () {
-      const newUser = {
-        "firstName": "Allison",
-        "lastName": "Iwinski",
-        "password": "password123"
-      };
-      
-      let doc; 
-      return db('users') 
-        .first()
-        .then(_doc => {
-          doc = _doc
-          return supertest(app)
-            .patch(`/api/users/${doc.email}`)
-            .send(newUser)
-            .expect(200);
-        })
-        .then(res => {
-          expect(res.body).to.equal(1);
-          expect(res.body).to.be.a("number");
-        });
-    });
-
-  });
-
-  describe('DELETE /api/users/:email', () => {
-
-    beforeEach('insert some users', () => {
-      return db('users').insert(users);
-    })
-
-    it('should delete a user by email', () => {
-      return db('users')
-        .first()
-        .then(doc => { 
-          return supertest(app)
-            .delete(`/api/users/${doc.email}`)
-            .expect(204)
-        })
-    });
-
-  });
-
 
 });
 
@@ -149,7 +96,7 @@ describe('Wildlifer sightings API:', function () {
       "location": "West Hartford Reservoir 6",
       "animal": "Black bear",
       "notes": "On my run, as far from the parking lots and into the woods as could be",
-      "photos": ""
+      "photos": "TBD"
     },
     {
       "email": "allison.d.schulman@gmail.com",
@@ -157,7 +104,7 @@ describe('Wildlifer sightings API:', function () {
       "location": "Avon",
       "animal": "Black bear",
       "notes": "Big guy came to the hummerbird feeder near the porch",
-      "photos": ""
+      "photos": "TBD"
     },
     {
       "email": "just.winski@gmail.com",
@@ -165,57 +112,39 @@ describe('Wildlifer sightings API:', function () {
       "location": "Indian Head Mountain, Catskills",
       "animal": "Ruffed grouse",
       "notes": "V aggresive and chased after us on the trail",
-      "photos": ""
+      "photos": "TBD"
     }
   ]
 
   before('make knex instance', () => {  
     db = knex({
       client: 'pg',
-      connection: TEST_DATABASE_URL,
+      connection: "postgresql://allison_schulman@localhost/sightings_test",
     })
   
     app.set('db', db)
   });
 
-  describe('GET /api/sightings/list', () => {
+  describe('GET /api/sightings/:email', () => {
 
     beforeEach('insert some sightings', () => {
       return db('sightings').insert(sightings);
     })
 
-    it('should respond to GET `/api/sightings/list` with an array of sightings and status 200', function () {
-      return supertest(app)
-        .get('/api/sightings/list')
-        .expect(200)
-        .expect(res => {
-          expect(res.body).to.be.a('array');
-        });
-    });
+    it('should respond to GET `/api/sightings/:email` with an array of sightings and status 200', function () {
+      let doc; 
+      return db('sightings')
+        .first()
+        .then(_doc => {
+          doc = _doc
+          return supertest(app)
+            .get('/api/sightings/${doc.email}')
+            .expect(200)
+            .expect(res => {
+              expect(res.body).to.be.a('array');
+            });
+        })
 
-  });
-
-  describe('POST /api/sightings/list', function () {
-
-    it('should create and return a new sighting when provided valid data', function () {
-      const newSighting = {
-        "email": "allison.d.schulman@gmail.com",
-        "id": 4,
-        "date": "06-12-2021",
-        "location": "Indian Head Mountain, Catskills",
-        "animal": "Brown snake",
-        "notes": "One of the largest I've seen in the wild",
-        "photos": ""
-      };
-
-      return supertest(app)
-        .post('/api/sightings/list')
-        .send(newSighting)
-        .expect(201)
-        .expect(res => {
-          expect(res.body).to.be.a('object');
-          expect(res.body).to.include.keys('id', 'date', 'location', 'animal', 'notes', 'photos')
-        });
     });
 
   });
@@ -229,7 +158,7 @@ describe('Wildlifer sightings API:', function () {
     it('should update a sighting when given valid data and an id', function () {
       const updatedSighting = {
         "email": "allison.d.schulman@gmail.com",
-        "id": 4,
+        "id": 2,
         "notes": "Am I the only one who likes snakes?"
       };
       
@@ -270,5 +199,3 @@ describe('Wildlifer sightings API:', function () {
   });
 
 });
-
-*/

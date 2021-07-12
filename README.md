@@ -4,9 +4,9 @@ This full stack application was made as my second capstone project for the Bloc/
 
 ## Live Application
 
-This application can be viewed here: https://setbreak-sneakin-allie.vercel.app/
+This application can be viewed here: https://wildlifer-client.vercel.app
 
-The backend API is currently running here: https://vercel.com/sneakin-allie/setbreak/66RtADMKRviWkg74npPznViTsmSA
+The backend API is currently running here: https://vercel.com/sneakin-allie/wildlifer-client/7tBMGW7yXm2y1mN7JRrAUscpZJ8e
 
 Both are hosted on Vercel with the SQL Database hosted on Heroku.
 
@@ -45,7 +45,6 @@ The Edit Sighting Page displays a form where a user can update information about
 
 ## Technology Used
 
-The front-end of this project was built in React, using Router, class components, state, props, vanilla CSS, and the Cloudinary Widget. An API was created that handled all promises necessary to interact with the back-end API database.
-
 The back-end of this project was built using Node.js, Express, PostgreSQL, and Knex. RESTful APIs were used along with middleware including Morgan, Express.json, Helmet, and CORS. CORS was implemented to ensure connection between the front-end application and back-end API.
 
+The front-end of this project was built in React, using Router, class components, state, props, vanilla CSS, and the Cloudinary Widget. An API was created that handled all promises necessary to interact with the back-end API database.
